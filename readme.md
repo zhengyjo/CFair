@@ -74,7 +74,7 @@ counter element is less than coef * standard deviation for each selected feature
     - list.  The indices of qualified counter-part for each minority counter-element after second-stage filtering.
 
 
-### dp_t_calculation_random(df_black_selected, df_white_whole, repeated_times, features):
+### sampling.dp_t_calculation_random(df_black_selected, df_white_whole, repeated_times, features):
 Random Sample and calculate the Dp Gap and paired t-test for two groups
 * Parameters:
     - df_black: DataFrame. The panda data frame of the selected minority group
@@ -110,7 +110,7 @@ Stratified Sample and calculate the Dp Gap and paired t-test for two groups
         - The third element of value is the result of Wilcoxon-Sign test between two groups.
         - The forth element of value is the result of paired-t test between two groups.
 
-### output_sampling_result(res_dict, conf_level=0.05):
+### sampling.output_sampling_result(res_dict, conf_level=0.05):
  Output the sampling result in the form of panda data frame.
  * Parameters:
     - res_dict: dict. The resulting dictionary from sampling.
