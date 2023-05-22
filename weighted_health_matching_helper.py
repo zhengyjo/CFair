@@ -45,6 +45,70 @@ def delta_group_construction(candidate_index_lst):
                 group_one_delta.add(ind)
     return group_zero_delta, group_one_delta
 
+def filter_with_std_delta_group(df_black,df_white,df_whole,candidate_lst_dict,measure_columns,coef=1):
+    """
+    Extract the remaining majority and minority patients from the candidate list after filtering
+    Parameters:
+    -------
+    df_black : dataframe. The dataframe that stores the information of minority patients.
+    df_white : dataframe. The dataframe that stores the information of majority patients.
+    df_whole : dataframe. The dataframe that stores the information of both majority and minority patients.
+    feature_columns : list. The features user want to use for covariance calcualtion. 
+    Return :
+    -------
+    C_0_filter_std : list. It contatins the indexes of remaining minority patients from the minority dataframe
+    C_1_filter_std : list of lists. The i,j entry represents the ith minority patients has the jth majority match after the previous stage
+    of candidate filtering.
+    """
+    std = df_whole.std()[measure_columns]
+    C_0_filter_std = []
+    C_1_filter_std = []
+    for key in candidate_lst_dict.keys():
+        black_features = df_black.iloc[key][measure_columns] 
+        left_white_match = []
+        for white_index in candidate_lst_dict[key]:
+            white_features = df_white.iloc[white_index][measure_columns]
+            flag = 1
+            for ele in measure_columns:
+                white_ele = float(white_features[ele])
+                black_ele = float(black_features[ele])
+                std_ele = float(std[ele])
+                if (abs(black_ele - white_ele)) > coef * std_ele:
+                    flag = 0
+                    break
+            if flag == 1:
+                left_white_match.append(white_index)
+                print("finally!")
+        if (len(left_white_match) > 0):
+            C_0_filter_std.append(key)
+            C_1_filter_std.append(left_white_match)
+        print(key)
+    return C_0_filter_std,C_1_filter_std
+
+def delta_group_construction_from_std_filter(C_0_std_filter, C_1_std_filter):
+    """
+    Extract the remaining majority and minority patients from the candidate list
+    Parameters:
+    -------
+    C_0_std_filter: list. It contatins the indexes of remaining minority patients from the minority dataframe.
+    C_1_std_filter: list of lists. The i,j entry represents the ith minority patients has the jth majority match after the previous stage
+    of candidate filtering.
+
+    Return :
+    -------
+    group_zero_delta : set. It contatins the indexes of remaining minority patients from the minority dataframe
+    group_one_delta : set. It contains the indexes of remaining majority patients from the majority dataframe
+    """
+    group_zero_delta = set()
+    group_one_delta = set()
+
+    for i in range(len(C_0_std_filter)):
+        candidates = C_1_std_filter[i]
+        if len(candidates) > 0:
+            group_zero_delta.add(C_0_std_filter[i])
+            for ind in candidates:
+                group_one_delta.add(ind)
+    return group_zero_delta, group_one_delta
 
 def retrieve_cov_features(group_zero_delta, group_one_delta, df_black, df_white, feature_columns):
      """
