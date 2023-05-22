@@ -40,6 +40,7 @@ df = pd.read_csv(input_file)
 df = df.drop(['Unnamed: 0'],axis=1)
 df = df[(df['ventilation_status'] == 0) |(df['ventilation_status'] == 1)| (df['ventilation_status'] == 5)]
 
+# We only interested in ventilation status in 0: Non-ventilation; 1: supplemental oxygen and 2:Invasive ventilation
 df['ventilation_status'] = df.apply(lambda x: 0 if x['ventilation_status']==0 else (1 if x['ventilation_status']==1 else 2),axis=1)
 
 """
@@ -63,6 +64,7 @@ racial = df["race_white_black"]
 logistic = LogisticRegression(solver='liblinear')
 logistic.fit(df_confounders, racial)
 
+# Assign the propensity score and propensity logits to each patients
 pscore = logistic.predict_proba(df_confounders)[:, 1]
 df['propensity_score'] = pscore
 df['propensity_logit'] = df['propensity_score'].apply(
@@ -71,6 +73,7 @@ df['propensity_logit'] = df['propensity_score'].apply(
 df_white = df_whole[df_whole['race_white_black'] == 0].reset_index()
 df_black = df_whole[df_whole['race_white_black'] == 1].reset_index()
 
+# Save them into csv file
 df_white.to_csv("white.csv")
 df_blak.to_csv("black.csv")
 
