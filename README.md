@@ -8,6 +8,7 @@ In addition, we propose a counterpart-based statistical fairness index, termed C
 
 ## Dataset
 We are using Sepsis patients from MIMIC-IV dataset.
+
 0. User may need to apply for the access to MIMIC dataset by going to [this page](https://physionet.org/content/mimiciv/2.0/)
 1. Please use the files in sql folder to extract the raw data of sepsis patients from MIMIC-IV 
 2. Please use the file from pre-processing folder to process the data
