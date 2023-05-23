@@ -11,11 +11,20 @@ from sklearn.metrics import accuracy_score, confusion_matrix
 
 
 
-"""
-Plot the distribution of two different group
-"""
-
 def plot_distribution(df_black,df_white,ele):
+    """
+    Plot the distribution of two different group
+    Parameters:
+    -------
+    df_black: DataFrame. The data frame of minority group
+    df_white: DataFrame. The pandas data frame of majority group
+    ele: str. The selected features to show in the plot
+
+
+    Return:
+    -------
+    plot. The distribution of the selected feature from two group. 
+    """
     minority_feature = df_black[ele]
     match_feature = df_white[ele]
     bins=np.histogram(np.hstack([minority_feature,match_feature]), bins=15)[1]
@@ -64,6 +73,19 @@ def dp_t_calculation_two_group_no_pair(df_black, df_white, features):
      
     
 def Abs_mean_diff_normalized(df_minor,df_major,df_whole,cl):
+    """
+    Calculate the absolute mean difference of a feature normalized by the mean of whole population
+    Parameters:
+    -------
+    df_minor: DataFrame. The data frame of minority group
+    df_major: DataFrame. The pandas data frame of majority group
+    cl: str. The selected feature that the user want to calculate
+
+
+    Return:
+    -------
+    float. the absolute mean difference of a feature divided by the mean of whole population. 
+    """
     mean_minor = df_minor[cl].mean()
     mean_major = df_major[cl].mean()
     difference = abs(mean_minor - mean_major)
@@ -71,6 +93,21 @@ def Abs_mean_diff_normalized(df_minor,df_major,df_whole,cl):
     return difference/feature_mean
   
 def split_with_match(df_minor_one_to_one,df_major_one_to_one,n_fold):
+    """
+    Split the one-to-one counterparts into folds. For example, if a minority patients is in the fold 1, then its one-to-one counterpart should be also 
+    in fold 1.
+    Parameters:
+    -------
+    df_minor_one_to_one: DataFrame. The data frame of minority patients that in one-to-one counterparts.
+    df_major_one_to_one: DataFrame. The pandas data frame of majority patients that in one-to-one counterparts. In particular, the order should 
+    be matched with df_minor_one_to_one
+    n_fold: int. The number of folds we want to split into.
+
+
+    Return:
+    -------
+    lists. Each sublist contains the resulting indexes of dataframe in training set and test sets after spliting, respectively. 
+    """
     if (len(df_minor_one_to_one) != len(df_major_one_to_one)):
         print("The size of counterparts are not equal!")
         return
@@ -93,6 +130,18 @@ def split_with_match(df_minor_one_to_one,df_major_one_to_one,n_fold):
     return df_counter_train_lst,df_counter_test_lst
   
 def split_without_match(df,n_fold):
+    """
+    Split the non-match patients into folds. 
+    Parameters:
+    -------
+    df: DataFrame. The data frame the user want to split
+    n_fold: int. The number of folds we want to split into.
+
+
+    Return:
+    -------
+    lists. Each sublist contains the resulting indexes of dataframe in training set and test sets after spliting, respectively. 
+    """
     whole_lst = np.arange(len(df))
     df_train_lst = []
     df_test_lst = []
@@ -107,6 +156,19 @@ def split_without_match(df,n_fold):
     return df_train_lst,df_test_lst
   
 def vent_paired_t_test (countert_minor,counter_major):
+    """
+    Calculate the paired-t test based on the predicted probability of ventilation
+    Parameters:
+    -------
+    countert_minor: numpy array. The predicted probabilities among different ventilation status for minority patients in countergroups
+    counter_major: numpy array. The predicted probabilities among different ventilation status for minority patients in countergroups
+
+
+    Return:
+    -------
+    t_statistic: float. The resulting t coefficient from paired t-test
+    p_value: float. The p-value of the paired t-test.
+    """
     differences = []
     for a,b in zip (countert_minor,counter_major):
         temp = np.linalg.norm(a - b,ord=1)
@@ -134,6 +196,20 @@ def vent_paired_t_test (countert_minor,counter_major):
   
   
 def calculate_fairness_metrics(y_true, y_pred, sensitive_features):
+     """
+    Calculate fairness meric
+    Parameters:
+    -------
+    y_true: numpy array. It containts the list of true label.
+    y_pred: numpy array. It contains the list of predictition.
+    sensitive_features: str.
+
+    Return:
+    -------
+    dict: The results from fairness metrics
+    
+    """
+    differences = []
     res = {}
     # Calculate overall accuracy
     accuracy = accuracy_score(y_true, y_pred)
