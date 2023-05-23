@@ -25,7 +25,7 @@ from scipy.spatial import distance
 parser = argparse.ArgumentParser(description='Example argparse script')
 
 # add arguments to the parser
-parser.add_argument('input_file', help='Path to input file')
+parser.add_argument('input_file', help='Path to directory of qualified propensity score candidates index')
 parser.add_argument('minority_file', help='Path to minority csv file')
 parser.add_argument('majority_file', help='Path to majority csv file')
 parser.add_argument('-c', '--cov', help='Specify a file for the learned covariance matrix')
