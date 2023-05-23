@@ -38,11 +38,11 @@ The codebase is organized as follows:
 ## Usage
 1. Run the scripts from sql and pre-processing to process the data.
 2. Perform CFair matching by running the scripts in matching folders as following order:
-  - Run `propensity_score_training.py` to train a propensity score model and give each patient a
-  propensity score by `python propensity_score_training.py [Path to csv file including two ethic groups'] `
-  - Run `propensity_score_matching.py` to perform pair-wise propensity score matching between any combination of minority and majority patients by 
-  - Run `propensity_score_filtering.py` to perform propensity score filtering to remove candidates that is too far away from the respective minority patients in terms of propensity score by 
-  - Run `weighted_health_matching_run.py` to perform health condition matching to find the counterparts by 
+  -- Run `propensity_score_training.py` to train a propensity score model and give each patient a
+  propensity score by `python propensity_score_training.py [Path to csv file including two ethic groups] `
+  - Run `propensity_score_matching.py` to perform pair-wise propensity score matching between any combination of minority and majority patients by `python propensity_score_training.py [Path to csv file including minority group] [Path to csv file including majority group] [The output name of all the pair-wise distance] [The output name that includes the distance between each minor and respective major] `
+  - Run `propensity_score_filtering.py` to perform propensity score filtering to remove candidates that is too far away from the respective minority patients in terms of propensity score by `python propensity_score_filtering.py [The file including all the pair-wise distance] [The file including respective the pair-wise distance] [The chosen p-value threshold] [output directory of qualified propensity score candidates index] `
+  - Run `weighted_health_matching_run.py` to perform health condition matching to find the counterparts by `python weighted_health_matching_run.py [Path to directory of qualified propensity score candidates index] [Path to minority csv file] [Path to majority csv file] --cov [a file for the learned covariance matrix]`
 3. Load the counterparts from last step in the training and evaluation of Ventilation prediction, just as what we show in the jupyter notebook in the folder of Ventilation_classification.
   
 
