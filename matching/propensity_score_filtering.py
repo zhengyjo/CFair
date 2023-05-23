@@ -27,7 +27,7 @@ parser = argparse.ArgumentParser(description='Example argparse script')
 parser.add_argument('input_file', help='The file including all the pair-wise distance')
 parser.add_argument('input_file_2', help='The file including respective the pair-wise distance')
 parser.add_argument('p_value', help='The chosen p-value threshold')
-parser.add_argument('name', help='Save qualified delta-group index')
+parser.add_argument('name', help='Save qualified propensity score candidates index')
 
 all_pair_distance_lst = args.input_file
 all_pair_distance = args.input_file_2
