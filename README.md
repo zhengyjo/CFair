@@ -1,6 +1,6 @@
 # CFair
 
-This repository is the official implementation of *Counterpart Fairness – Addressing Systematic between-group Differences in Fairness Evaluation*.
+This repository is the official implementation of [Counterpart Fairness -- Addressing Systematic between-group Differences in Fairness Evaluation](https://arxiv.org/abs/2305.18160)
 
 ![Cfair_figure](https://github.com/zhengyjo/CFair/blob/main/cfair_illustration.png)
 
@@ -47,6 +47,20 @@ The codebase is organized as follows:
   - Run `weighted_health_matching_run.py` to perform health condition matching to find the counterparts by `python weighted_health_matching_run.py [Path to directory of qualified propensity score candidates index] [Path to minority csv file] [Path to majority csv file] --cov [a file for the learned covariance matrix]`
 - Load the counterparts from last step in the training and evaluation of Ventilation prediction, just as what we show in the jupyter notebook from the folder of Ventilation_classification.
   
+## Citation
+
+If you use the codes, please cite the following paper:
+
+```
+@misc{wang2023counterpart,
+      title={Counterpart Fairness -- Addressing Systematic between-group Differences in Fairness Evaluation}, 
+      author={Yifei Wang and Zhengyang Zhou and Liqin Wang and John Laurentiev and Peter Hou and Li Zhou and Pengyu Hong},
+      year={2023},
+      eprint={2305.18160},
+      archivePrefix={arXiv},
+      primaryClass={cs.LG}
+}
+```
 
 
 
